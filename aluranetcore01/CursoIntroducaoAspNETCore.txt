@@ -6,4 +6,24 @@ Atualizar vscode extensions nuget package manager e nuget extensions
 nuget package install Microsoft.AspNetCore -Version 2.0.1
 servidor web adotado pela sua aplicação, que no caso será o Kestrel,usamos o padrao BUILDER
 
-Precisa de uma classe de inicializacao
+Precisa de uma classe de inicializacao e Metodo Configure 
+
+httpContext  -Um objeto desta classe é passado como 
+argumento de entrada do delegate RequestDelegate
+
+public delegate Task RequestDelegate(HttpContext context)
+Interessante que o compilador ignora quando é utilizado o modificador de acesso para validar o uso de um delegate
+
+Conceito de Request Pipeline 
+Termo usado pelo ASP.NET Core para representar o fluxo que uma requisição HTTP percorre dentro de sua aplicação até que a resposta seja entregue ao cliente.
+
+Outra dica é configura classe de inicializacao e de configuracao de acordo com ambiente 
+Por convenção, o ASP.NET Core permite que você configure o ambiente de desenvolvimento através de um método ConfigureDevelopment(). O mesmo pode ser feito para o ambiente de produção com ConfigureProduction() e o de testes com ConfigureStaging().
+E mais: é possível criar classes específicas para cada ambiente. Como? Usando os nomes StartupDevelopment, StartupStaging e StartupProduction
+https://docs.microsoft.com/pt-br/aspnet/core/fundamentals/environments?view=aspnetcore-2.2
+
+--TRATAR ENDERECO POR ROTEAMENTO
+Como fazer distinção de código por endereço de roteamento
+Dentro da classe Startup 
+
+Modificar o Codigo de Retorno = context.Response.StatusCode = 404;

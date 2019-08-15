@@ -15,7 +15,7 @@ namespace Alura.ListaLeitura.App
             .Build();
             host.Run();
 
-            var _repo = new LivroRepositorioCSV();
+            //var _repo = new LivroRepositorioCSV();
 
             /* ImprimeLista(_repo.ParaLer);
             ImprimeLista(_repo.Lendo);

@@ -4,12 +4,17 @@ using System.Text;
 using Alura.ListaLeitura.App.Negocio;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Alura.ListaLeitura.App.Repositorio
 {
     public class LivroRepositorioCSV : ILivroRepositorio
     {
-        private static readonly string nomeArquivoCSV = "Repositorio/livros.csv";
+        const string nomeArquivoCSVLinux = "Repositorio/livros.csv";
+        const string nomeArquivoCSVWindows = "Repositorio\\livros.csv";
+
+        private static string nomeArquivoCSV = Environment.CurrentDirectory.Contains("\\") ? nomeArquivoCSVWindows : nomeArquivoCSVLinux;
+
 
         private ListaDeLeitura _paraLer;
         private ListaDeLeitura _lendo;
@@ -20,6 +25,7 @@ namespace Alura.ListaLeitura.App.Repositorio
             var arrayParaLer = new List<Livro>();
             var arrayLendo = new List<Livro>();
             var arrayLidos = new List<Livro>();
+
 
             using (var file = File.OpenText(LivroRepositorioCSV.nomeArquivoCSV))
             {
