@@ -1,0 +1,7 @@
+Transformar meu terminal em um servidor http. criar um objeto que vai hospedar todos os pedidos da aplicação. IWebHost
+WebHost objeto que hospeda todos os pedidos 
+
+Atualizar vscode extensions nuget package manager e nuget extensions 
+
+nuget package install Microsoft.AspNetCore -Version 2.0.1
+servidor web adotado pela sua aplicação, que no caso será o Kestrel,usamos o padrao BUILDER

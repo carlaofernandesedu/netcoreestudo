@@ -1,6 +1,7 @@
 ﻿using Alura.ListaLeitura.App.Negocio;
 using Alura.ListaLeitura.App.Repositorio;
 using System;
+using Microsoft.AspNetCore;
 
 namespace Alura.ListaLeitura.App
 {
@@ -8,6 +9,8 @@ namespace Alura.ListaLeitura.App
     {
         static void Main(string[] args)
         {
+            IWebHost host = new WebHost;
+
             var _repo = new LivroRepositorioCSV();
 
             ImprimeLista(_repo.ParaLer);
