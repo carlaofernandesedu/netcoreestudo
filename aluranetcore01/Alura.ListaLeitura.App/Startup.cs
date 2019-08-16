@@ -1,6 +1,10 @@
+using Alura.ListaLeitura.App.Negocio;
 using Alura.ListaLeitura.App.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,41 +12,83 @@ namespace Alura.ListaLeitura.App
 {
     public class Startup
     {
+        private const string CAMINHO_INEXISTENTE = "Caminho Inexistente";
+        private const string LIVRO_CADASTRADO_COM_SUCESSO = "Livro Cadastrado com Sucesso";
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddRouting();
+        }
         public void Configure(IApplicationBuilder app)
         {
-            app.Run(Rotear);
+            //Mapeamento ASP.NET CORE
+            var roteamento = new RouteBuilder(app);
+            roteamento.MapRoute("Livros/ParaLer",LivrosParaLer);
+            roteamento.MapRoute("Livros/Lidos",LivrosLidos);
+            roteamento.MapRoute("Livros/Lendo",LivrosLendo);
+            roteamento.MapRoute("Cadastro/NovoLivro/{nome}/{autor}", CadastroNovoLivro);
+            var rotas = roteamento.Build();
+            app.UseRouter(rotas);
+
+            //app.Run(RotearManual);
         }
 
-        //public Task LivrosParaLer(HttpContext context)
-        //{
-        //    var repo = new LivroRepositorioCSV();
-        //    return context.Response.WriteAsync(repo.ParaLer.ToString());
-        //}
+        private Task CadastroNovoLivro(HttpContext context)
+        {
+            var livro = new Livro()
+            {
+                Autor = context.GetRouteValue("autor").ToString(),
+                Titulo = context.GetRouteValue("nome").ToString()
+            };
+            var repo = new LivroRepositorioCSV();
+            repo.Incluir(livro);
+            return context.Response.WriteAsync(LIVRO_CADASTRADO_COM_SUCESSO);
+        }
+
+        public Task LivrosParaLer(HttpContext context)
+        {
+            var repo = new LivroRepositorioCSV();
+            return context.Response.WriteAsync(repo.ParaLer.ToString());
+        }
+
+        public Task LivrosLidos(HttpContext context)
+        {
+            var repo = new LivroRepositorioCSV();
+            return context.Response.WriteAsync(repo.Lidos.ToString());
+        }
+
+        public Task LivrosLendo(HttpContext context)
+        {
+            var repo = new LivroRepositorioCSV();
+            return context.Response.WriteAsync(repo.Lendo.ToString());
+        }
 
         
 
-        public Task Rotear(HttpContext context)
+        public Task RotearManual(HttpContext context)
         {
             var repo = new LivroRepositorioCSV();
 
-            var caminhosAtendidos = new Dictionary<string,string>
+            var caminhosAtendidos = new Dictionary<string,RequestDelegate>
              {
-                { "/Livros/ParaLer",repo.ParaLer.ToString()},
-                { "/Livros/Lendo",repo.Lendo.ToString()},
-                { "/Livros/Lidos",repo.Lidos.ToString()}
+                { "/Livros/ParaLer",LivrosParaLer},
+                { "/Livros/Lendo",LivrosLendo},
+                { "/Livros/Lidos",LivrosLidos}
             };
 
-            var retorno = "Caminho Inexistente";
+            
             if (caminhosAtendidos.ContainsKey(context.Request.Path))
             {
-                retorno = caminhosAtendidos[context.Request.Path];
+                var metodo = caminhosAtendidos[context.Request.Path];
+                return metodo.Invoke(context);
             }
             else
             {
                 context.Response.StatusCode = StatusCodes.Status404NotFound;
+                return context.Response.WriteAsync(CAMINHO_INEXISTENTE);
             }
 
-            return context.Response.WriteAsync(retorno);
+            
         }
     }
 }

@@ -27,3 +27,20 @@ Como fazer distinção de código por endereço de roteamento
 Dentro da classe Startup 
 
 Modificar o Codigo de Retorno = context.Response.StatusCode = 404;
+
+Trabalhar com metodo RequestDelegate.... Uso do Metodo Invoke para poder chamara delegate
+RequestDelegate metodo 
+return metodo.Invoke(context);
+Objetos HttpRequest e HttpResponse 
+https://docs.microsoft.com/pt-br/dotnet/api/microsoft.aspnetcore.http.httprequest?view=aspnetcore-2.2
+
+Roteamento
+criando expressões regulares que se adequem aos caminhos que tiver que atender? Na verdade toda essa lógica já foi criada e pensada para nós no framework AspNet.Core e está disponível no pacote Routing
+RouteBuilder
+var routeBuilder = new RouteBuilder(app);
+routeBuilder.MapRoute("/livros/paraler", LivrosParaLer)
+app.useRouter(rotas);
+e necessário que o service que esta configurado no Configuration Services
+
+Roteamento Templte -> Poderia {nome}/{autor} e depois capturar httpContext -> Titulo = Convert.ToString(context.GetRouteValue("nome")),
+        Autor = Convert.ToString(context.GetRouteValue("autor")
