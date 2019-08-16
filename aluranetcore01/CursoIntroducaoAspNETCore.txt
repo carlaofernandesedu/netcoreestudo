@@ -35,6 +35,7 @@ Objetos HttpRequest e HttpResponse
 https://docs.microsoft.com/pt-br/dotnet/api/microsoft.aspnetcore.http.httprequest?view=aspnetcore-2.2
 
 Roteamento
+https://docs.microsoft.com/pt-br/aspnet/core/fundamentals/routing?view=aspnetcore-2.2
 criando expressões regulares que se adequem aos caminhos que tiver que atender? Na verdade toda essa lógica já foi criada e pensada para nós no framework AspNet.Core e está disponível no pacote Routing
 RouteBuilder
 var routeBuilder = new RouteBuilder(app);
@@ -44,3 +45,8 @@ e necessário que o service que esta configurado no Configuration Services
 
 Roteamento Templte -> Poderia {nome}/{autor} e depois capturar httpContext -> Titulo = Convert.ToString(context.GetRouteValue("nome")),
         Autor = Convert.ToString(context.GetRouteValue("autor")
+
+Constraint nos parametros para ja não deixar chegar no manipulador
+Na documentação sobre o roteamento no Asp.NET também temos a possibilidade de adicionar restrições às rotas mapeadas. São as chamadas Route Constraints. As restrições limitam o mapeamento e fazem com que o ASP.NET só execute determinado request delegate se a restrição for atendida.
+No nosso caso, queremos que apenas valores do tipo inteiro sejam atendidos na rota de exibição de detalhes. Para implementar essa restrição modificamos o mapeamento da rota assim:
+Livros/Detalhes/{id:int}
