@@ -50,3 +50,7 @@ Constraint nos parametros para ja não deixar chegar no manipulador
 Na documentação sobre o roteamento no Asp.NET também temos a possibilidade de adicionar restrições às rotas mapeadas. São as chamadas Route Constraints. As restrições limitam o mapeamento e fazem com que o ASP.NET só execute determinado request delegate se a restrição for atendida.
 No nosso caso, queremos que apenas valores do tipo inteiro sejam atendidos na rota de exibição de detalhes. Para implementar essa restrição modificamos o mapeamento da rota assim:
 Livros/Detalhes/{id:int}
+
+Fazer passar por Get QueryString 
+Como a query string faz parte da requisição, é lá que vamos procurar uma propriedade chamada Query, que é do tipo IQueryCollection
+Cada chave pode receber uma lista de valores .. logo deve o First() para obter o primeiro valor por chave
