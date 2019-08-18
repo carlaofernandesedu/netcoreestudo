@@ -59,24 +59,31 @@ namespace Alura.ListaLeitura.App
 
         private Task ExibeNovoFormulario(HttpContext context)
         {
-            var html = @"<html>
-                <form action='/Cadastro/Incluir'>
-                    <label>titulo</label>
-                    <input name='titulo' />
-                    <label>autor</label>
-                    <input name='autor' >
-                    <button>Gravar</button>
-                </form>
-            </html>";
+            // var html = @"<html>
+            //     <form action='/Cadastro/Incluir'>
+            //         <label>titulo</label>
+            //         <input name='titulo' />
+            //         <label>autor</label>
+            //         <input name='autor' >
+            //         <button>Gravar</button>
+            //     </form>
+            // </html>";
+            var html = CarregaArquivoHTML("incluir");
             return context.Response.WriteAsync(html);
         }
         private Task ProcessaFormulario(HttpContext context)
         {
-            var livro = new Livro()
+            var livro = new Livro();
+            if (context.Request.Method.ToUpper() == "POST")
             {
-                Titulo = context.Request.Query["titulo"].First(),
-                Autor = context.Request.Query["autor"].First()
-            };
+                livro.Titulo = context.Request.Form["titulo"];
+                livro.Autor = context.Request.Form["autor"];
+            }
+            else 
+            {
+                livro.Titulo = context.Request.Query["titulo"].First();
+                livro.Autor = context.Request.Query["autor"].First();
+            }
             var repo = new LivroRepositorioCSV();
             repo.Incluir(livro);
             return context.Response.WriteAsync(LIVRO_CADASTRADO_COM_SUCESSO);
@@ -84,8 +91,12 @@ namespace Alura.ListaLeitura.App
 
         private string CarregaArquivoHTML(string nomeArquivo)
         {
+            nomeArquivo = nomeArquivo + ".html";
             var caminhoArquivo = Path.Combine("html",nomeArquivo);
-            return File.OpenText(caminhoArquivo).ReadToEnd();
+            using( var arquivo = File.OpenText(caminhoArquivo))
+            {
+                    return arquivo.ReadToEnd();
+            };
         }
         public Task LivrosParaLer(HttpContext context)
         {
