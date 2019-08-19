@@ -54,3 +54,7 @@ Livros/Detalhes/{id:int}
 Fazer passar por Get QueryString 
 Como a query string faz parte da requisição, é lá que vamos procurar uma propriedade chamada Query, que é do tipo IQueryCollection
 Cada chave pode receber uma lista de valores .. logo deve o First() para obter o primeiro valor por chave
+
+a lógica de atendimento das requisições é a parte Controller, pois é nela que as requisições são controladas
+as classes de negócio estão na parte Model, pois elas modelam a aplicação
+classes e arquivos para tratar do HTML se encontram na parte View, porque elas se tornarão a parte que o usuário irá ver
