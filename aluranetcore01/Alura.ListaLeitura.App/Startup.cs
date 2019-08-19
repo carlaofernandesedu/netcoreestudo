@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Alura.ListaLeitura.App
@@ -101,7 +102,13 @@ namespace Alura.ListaLeitura.App
         public Task LivrosParaLer(HttpContext context)
         {
             var repo = new LivroRepositorioCSV();
-            return context.Response.WriteAsync(repo.ParaLer.ToString());
+            var content = CarregaArquivoHTML("paraler");
+            foreach (var item in repo.ParaLer.Livros)
+            {
+              content = content.Replace("#NOVOITEM",$"<li>{item.Titulo} - {item.Autor}</li>#NOVOITEM");
+            }
+            content = content.Replace("#NOVOITEM","");
+            return context.Response.WriteAsync(content);
         }
 
         public Task LivrosLidos(HttpContext context)
