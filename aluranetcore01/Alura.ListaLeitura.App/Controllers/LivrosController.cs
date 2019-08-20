@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Alura.ListaLeitura.App.HTML;
 
-namespace Alura.ListaLeitura.App.Logica
+namespace Alura.ListaLeitura.App.Controllers
 {
-    public class LivrosLogica
+    public class LivrosController
     {
         public static Task ExibeDetalhes(HttpContext context)
         {
@@ -39,6 +39,11 @@ namespace Alura.ListaLeitura.App.Logica
         {
             var repo = new LivroRepositorioCSV();
             return context.Response.WriteAsync(repo.Lendo.ToString());
+        }
+
+        public string Teste()
+        {
+            return "Testes com as rota do MVC";
         }
 
     }

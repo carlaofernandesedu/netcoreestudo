@@ -1,6 +1,4 @@
-using Alura.ListaLeitura.App.Logica;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Alura.ListaLeitura.App
@@ -9,23 +7,26 @@ namespace Alura.ListaLeitura.App
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddRouting();
             services.AddRouting();
+            services.AddMvc();
         }
         public void Configure(IApplicationBuilder app)
         {
             //Mapeamento ASP.NET CORE
-            var roteamento = new RouteBuilder(app);
-            roteamento.MapRoute("Livros/ParaLer",LivrosLogica.LivrosParaLer);
-            roteamento.MapRoute("Livros/Lidos",LivrosLogica.LivrosLidos);
-            roteamento.MapRoute("Livros/Lendo",LivrosLogica.LivrosLendo);
-            roteamento.MapRoute("Livros/Detalhes/{id:int}", LivrosLogica.ExibeDetalhes);
-            roteamento.MapRoute("Cadastro/NovoLivro/{nome}/{autor}", CadastroLogica.CadastroNovoLivro);
-            roteamento.MapRoute("Cadastro/NovoLivro",CadastroLogica.ExibeNovoFormulario);
-            roteamento.MapRoute("Cadastro/Incluir", CadastroLogica.ProcessaFormulario);
-            var rotas = roteamento.Build();
-            app.UseRouter(rotas);
+            // var roteamento = new RouteBuilder(app);
+            // roteamento.MapRoute("Livros/ParaLer",LivrosLogica.LivrosParaLer);
+            // roteamento.MapRoute("Livros/Lidos",LivrosLogica.LivrosLidos);
+            // roteamento.MapRoute("Livros/Lendo",LivrosLogica.LivrosLendo);
+            // roteamento.MapRoute("Livros/Detalhes/{id:int}", LivrosLogica.ExibeDetalhes);
+            // roteamento.MapRoute("Cadastro/NovoLivro/{nome}/{autor}", CadastroLogica.CadastroNovoLivro);
+            // roteamento.MapRoute("Cadastro/NovoLivro",CadastroLogica.ExibeNovoFormulario);
+            // roteamento.MapRoute("Cadastro/Incluir", CadastroLogica.ProcessaFormulario);
+            // var rotas = roteamento.Build();
+            // app.UseRouter(rotas);
 
             //app.Run(RotearManual);
+            app.UseMvcWithDefaultRoute();
         }
 
    

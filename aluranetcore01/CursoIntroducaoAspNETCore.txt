@@ -58,3 +58,13 @@ Cada chave pode receber uma lista de valores .. logo deve o First() para obter o
 a lógica de atendimento das requisições é a parte Controller, pois é nela que as requisições são controladas
 as classes de negócio estão na parte Model, pois elas modelam a aplicação
 classes e arquivos para tratar do HTML se encontram na parte View, porque elas se tornarão a parte que o usuário irá ver
+
+ASP.NET MVC 
+Install-Package Microsoft.AspNetCore.Mvc -Version 2.0.2
+services.AddRouting();
+    services.AddMvc();
+    roteamento padrao UseMvcWithDefaultRoutes()
+
+    Ele estabeleceu um estágio que acontece antes da execução do método no request pipeline chamado Model Binding
+
+    o estágio de Model Binding irá procurar por informações referentes a um livro (título e autor) em três fontes: no formulário, na rota e na query string.

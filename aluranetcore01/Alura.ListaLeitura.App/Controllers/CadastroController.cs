@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Routing;
 using Alura.ListaLeitura.App.Negocio;
 using Alura.ListaLeitura.App.HTML;
 
-namespace Alura.ListaLeitura.App.Logica
+namespace Alura.ListaLeitura.App.Controllers
 {
-    public class CadastroLogica
+    public class CadastroController
     {
         private const string LIVRO_CADASTRADO_COM_SUCESSO = "Livro Cadastrado com Sucesso";
 
