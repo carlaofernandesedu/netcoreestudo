@@ -7,6 +7,11 @@
     <title>Exibicao de Livros</title>
 </head>
 <body>
-    <ul>#NOVOITEM</ul>
+    <ul>
+        @foreach (var item in ViewBag.Livros)
+        {
+            <li>@item.Titulo - @item.Autor</li>
+        }
+    </ul>
 </body>
 </html>

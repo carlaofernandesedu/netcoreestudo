@@ -5,7 +5,7 @@ using Alura.ListaLeitura.App.Repositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Alura.ListaLeitura.App.Negocio;
-using Alura.ListaLeitura.App.HTML;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Alura.ListaLeitura.App.Controllers
 {
@@ -26,19 +26,12 @@ namespace Alura.ListaLeitura.App.Controllers
         }
 
 
-        public static Task ExibeNovoFormulario(HttpContext context)
+        public IActionResult ExibeNovoFormulario()
         {
-            // var html = @"<html>
-            //     <form action='/Cadastro/Incluir'>
-            //         <label>titulo</label>
-            //         <input name='titulo' />
-            //         <label>autor</label>
-            //         <input name='autor' >
-            //         <button>Gravar</button>
-            //     </form>
-            // </html>";
-            var html = HtmlUtils.CarregaArquivoHTML("incluir");
-            return context.Response.WriteAsync(html);
+            //var html = HtmlUtils.CarregaArquivoHTML("incluir");
+            //return context.Response.WriteAsync(html);
+            var html = new ViewResult { ViewName = "incluir"} ;
+            return html;
         }
         public static Task ProcessaFormulario(HttpContext context)
         {

@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using Alura.ListaLeitura.App.Repositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Alura.ListaLeitura.App.HTML;
+using Alura.ListaLeitura.App.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Alura.ListaLeitura.App.Controllers
 {
-    public class LivrosController
+    public class LivrosController : Controller 
     {
         public static Task ExibeDetalhes(HttpContext context)
         {
@@ -17,28 +18,27 @@ namespace Alura.ListaLeitura.App.Controllers
             return context.Response.WriteAsync(livro.Detalhes());
         }
 
-        public static Task LivrosParaLer(HttpContext context)
+        public IActionResult LivrosParaLer()
         {
             var repo = new LivroRepositorioCSV();
-            var content = HtmlUtils.CarregaArquivoHTML("paraler");
-            foreach (var item in repo.ParaLer.Livros)
-            {
-              content = content.Replace("#NOVOITEM",$"<li>{item.Titulo} - {item.Autor}</li>#NOVOITEM");
-            }
-            content = content.Replace("#NOVOITEM","");
-            return context.Response.WriteAsync(content);
+            ViewBag.Livros = repo.ParaLer.Livros;
+            return View("lista");
         }
 
-        public static Task LivrosLidos(HttpContext context)
+        public IActionResult LivrosLidos()
         {
             var repo = new LivroRepositorioCSV();
-            return context.Response.WriteAsync(repo.Lidos.ToString());
+            ViewBag.Livros = repo.Lidos.Livros;
+            return View("lista");
+
         }
 
-        public static Task LivrosLendo(HttpContext context)
+        public IActionResult LivrosLendo()
         {
             var repo = new LivroRepositorioCSV();
-            return context.Response.WriteAsync(repo.Lendo.ToString());
+            ViewBag.Livros = repo.Lendo.Livros;
+            return View("lista");
+
         }
 
         public string Teste()

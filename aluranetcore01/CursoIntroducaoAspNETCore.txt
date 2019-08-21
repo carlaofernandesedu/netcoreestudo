@@ -68,3 +68,52 @@ services.AddRouting();
     Ele estabeleceu um estágio que acontece antes da execução do método no request pipeline chamado Model Binding
 
     o estágio de Model Binding irá procurar por informações referentes a um livro (título e autor) em três fontes: no formulário, na rota e na query string.
+
+    PROCESSO DE MVC 
+    Quando adiciono o serviço MVC, dentro do método de extensão AddMvc() ele automaticamente adiciona os serviços dos quais depende, e um deles é o serviço de roteamento. Portanto não precisamos mais adicioná-lo na mão e vou removê-lo do meu código.
+
+    Ela é escrita pelo framework. Ou seja, existe mais um estágio depois da execução da action, e ele é chamado Execute Result. Quando retornamos uma string, esse estágio entende que queremos mandar um texto puro como resposta e faz isso. Veja o content-type da resposta: text/plain.
+    O framework escreve a resposta .. e nao mais a gente IAciontResult... 
+    ViewResult e a implementacao de HTML .. Ao usar a implementacao do ViewResult por convencao ira trabalhar com cshtml e nao html .. como extensao
+
+    Onde habilito essa funcionaldade? Na classe de inicialização, Startup. Vou no método Configure() e chamo o método UseDeveloperExceptionPage(), que vai mostrar uma página bonitinha com as informações do erro. Então vou subir o servidor e verificar o erro.
+
+Veja que a página informa que não foi possível encontrar formulario.html.
+
+Repara que o framework procura especificamente em uma pasta chamada Views, e dentro dela em uma subpasta com o nome de nosso controlador! E gente, isso é uma regra do framework, tá? Então vamos nos adequar a essas regras. Vou renomear a pasta HTML para Views, e criar uma subpasta Cadastro dentro dela, movendo o arquivo pra lá. Agora acho que vai achar. Ops, mesmo erro. Estranho. Peraí, olha aqui. Ele está buscando um arquivo com extensão CSHTML
+
+Erro de Reportar o BUG DO ASP.NET CORE 
+An error occurred during the compilation of a resource required to process this request. Please review the following specific error details and modify your source code appropriately.
+Generated Code
+One or more compilation references are missing. Ensure that your project is referencing 'Microsoft.NET.Sdk.Web' and the 'PreserveCompilationContext' property is not set to false.
+
+Fazer o seguinte procedimento no CSPROJ
+<PropertyGroup>
+ <OutputType>Exe</OutputType>
+ <TargetFramework>netcoreapp2.0</TargetFramework>
+ <PreserveCompilationContext>true</PreserveCompilationContext>
+</PropertyGroup>
+
+PRE COMPILACAO DE VIEWS 
+PreserveCompilationContext é uma configuração exigida para compilar as views. Quando ela está habilitada indicamos que nossas views serão compiladas em tempo de execução. Ela pode ser desligada e usada em conjunto com outras opções para pré-compilar as views e assim diminuir o tempo de espera do usuário ao solicitar aquela view específica.
+ramework delegou a responsabilidade para uma entidade específica chamada View Engine, ou seja, um motor que se encarrega de juntar o HTML com o código necessário para tornar a página dinâmica. Cada view engine tem suas próprias regras e padronizações.
+E quem é a view engine padrão? Uma implementação chamada Razor. Quais são suas regras? As views devem ter extensão cshtml, e você pode escrever código C# dentro do arquivo. Eita, como assim? Isso mesmo, vc pode colocar código csharp dentro da view
+
+Como trabalhar com razor 
+@foreach (var livro in livros)
+{
+    <li>@livro.Titulo - @livro.Autor</li>
+}
+
+Uso do ViewBag atraves da classe base Controller e ela é instancia pelos metodos da classe pai
+
+RESUMO DO MVC
+A pasta Controllers estão os controladores de nossa aplicação. O nome de um controlador termina com o sufixo Controller e herda da classe base Controller. Seus métodos são actions e retornam implementações de IActionResult.
+
+Para gerar as views temos uma estrutura de pastas que começa em Views e subpastas respectivas aos prefixos dos nomes dos controladores. Dentro de cada subpasta temos arquivos com extensão cshtml e neste projeto aqui existe uma correspondência entre a action e a view.
+
+Na pasta Models estão os modelos da aplicação.
+
+A classe de inicialização da aplicação. Ela possui os métodos ConfigureServices(), que adiciona o serviço MVC, e o método Configure(), que além de outras coisas define o roteamento padrão do framework MVC.
+
+A classe Program tem o código que sobe o host a partir das configurações do hospedeiro web (usando Kestrel e classe de inicialização Startup).

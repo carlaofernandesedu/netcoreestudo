@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Alura.ListaLeitura.App.HTML
+namespace Alura.ListaLeitura.App.Utils
 {
     public static class HtmlUtils
     {
